@@ -1,5 +1,6 @@
 import socket
 import random
+import face_tracker_v3 as ft3
 
 HOST = '127.0.0.1'
 PORT = 50014
@@ -18,13 +19,16 @@ s.bind((HOST, PORT))
 s.listen()
 
 d = Data()
+ftracker = ft3.FTC()
 
 while(1):
+    sd = ftracker.execute()
+    print(sd)
+    sendData = sd.encode()
     conn, addr = s.accept()
     print('Connected by', addr)
-    sendData = d.emit_data()
     #print(sendData)
     #print(sendData.encode().__sizeof__())
-    conn.sendall(sendData.encode())
+    conn.sendall(sendData)
 
 s.close()
